@@ -31,7 +31,7 @@ fn App(cx: Scope) -> Element {
 
 fn Home(cx: Scope) -> Element {
     let my_style = "body { margin: 0 }";
-    let link_style = "a { width: 22vw; height: 10vh; border: solid 5px white;}";
+    let link_style = "a { width: 29vw; height: 10vh; border: solid 5px #F9FAF8; border-radius: 15px; text-decoration: none; color: #F9FAF8; display: flex; justify-content: center; align-items: center; font-size: 3vw; font-weight: 700}";
     cx.render(rsx! {
         style { my_style }
         main {
@@ -43,14 +43,22 @@ fn Home(cx: Scope) -> Element {
             background_color: "#1F2937",
             height: "100vh",
             width: "100vw",
-            gap: "50px",
+            gap: "9vh",
             div {
-                "Hello, world!"
+                color: "#F9FAF8",
+                font_size: "7vw",
+                font_weight: "900",
+                "PHOTOMOCK"
             }
             Link {
                 to: Route::Blog {},
                 style{ link_style },
-                "Go home!"
+                "Start Editing!"
+            }
+            Link {
+                to: Route::Devs {},
+                style{ link_style },
+                "Developers!"
             }
         }
     })
