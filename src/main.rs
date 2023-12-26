@@ -31,6 +31,7 @@ fn App(cx: Scope) -> Element {
 
 fn Home(cx: Scope) -> Element {
     let my_style = "body { margin: 0 }";
+    let link_style = "a { width: 22vw; height: 10vh; border: solid 5px white;}";
     cx.render(rsx! {
         style { my_style }
         main {
@@ -48,6 +49,7 @@ fn Home(cx: Scope) -> Element {
             }
             Link {
                 to: Route::Blog {},
+                style{ link_style },
                 "Go home!"
             }
         }
