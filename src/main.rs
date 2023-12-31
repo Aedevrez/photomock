@@ -1,16 +1,13 @@
 #![allow(non_snake_case)]
-// import the prelude to get access to the `rsx!` macro and the `Scope` and `Element` types
+#![cfg_attr(feature = "bundle", windows_subsystem = "windows")]
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use image::io::Reader as ImageReader;
 
-// All of our routes will be a variant of this Route enum
 #[derive(Routable, Clone)]
 enum Route {
-        // if the current location is "/home", render the Home component
         #[route("/")]
         Home {},
-        // if the current location is "/blog", render the Blog component
         #[route("/blog")]
         Blog {},
         #[route("/devs")]
@@ -19,11 +16,9 @@ enum Route {
 
 
 fn main() {
-    // launch the dioxus app in a webview
     dioxus_desktop::launch(App);
 }
 
-// define a component that renders a div with the text "Hello, world!"
 fn App(cx: Scope) -> Element {
     cx.render(rsx! {
         Router::<Route> {}
@@ -95,7 +90,7 @@ fn Blog(cx: Scope) -> Element {
                 font_weight: "700",
                 background_color: "#1F2937",
                 value: "lenna.png",
-                oninput: move |evt| {filename.set(evt.value.clone()); println!("{filename}");},
+                oninput: move |evt| {filename.set(evt.value.clone());},
             }
             button {
                 width: "29vw",
@@ -206,18 +201,24 @@ fn Devs(cx: Scope) -> Element {
 
 async fn grayscaler(name: String) -> () {
     let img = ImageReader::open(name.clone()).unwrap().decode().unwrap().grayscale();
-    let name = name.split(".").collect::<Vec<&str>>()[0];
-    img.save(format!("{name}_grayscaled.png")).unwrap();
+    let img_name = name.split(".").collect::<Vec<&str>>();
+    let name = img_name[0];
+    let ext = img_name[1];
+    img.save(format!("{name}_grayscaled.{ext}")).unwrap();
 }
 
 async fn blurrer(name: String) -> () {
     let img = ImageReader::open(name.clone()).unwrap().decode().unwrap().blur(5.0);
-    let name = name.split(".").collect::<Vec<&str>>()[0];
-    img.save(format!("{name}_blurred.png")).unwrap();
+    let img_name = name.split(".").collect::<Vec<&str>>();
+    let name = img_name[0];
+    let ext = img_name[1];
+    img.save(format!("{name}_blurred.{ext}")).unwrap();
 }
 
 async fn sharpener(name: String) -> () {
     let img = ImageReader::open(name.clone()).unwrap().decode().unwrap().unsharpen(5.0, 5);
-    let name = name.split(".").collect::<Vec<&str>>()[0];
-    img.save(format!("{name}_sharpened.png")).unwrap();
+    let img_name = name.split(".").collect::<Vec<&str>>();
+    let name = img_name[0];
+    let ext = img_name[1];
+    img.save(format!("{name}_sharpened.{ext}")).unwrap();
 }
